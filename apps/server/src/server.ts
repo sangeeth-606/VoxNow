@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import authRoutes from "./routes/auth";
 
 const app = express();
 
@@ -8,6 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev')); // HTTP request logger
+app.use("/api/auth", authRoutes);
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
