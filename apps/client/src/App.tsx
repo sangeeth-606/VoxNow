@@ -8,6 +8,7 @@ import DashBoard from "./components/DashBoard";
 import SignUp from "./app/login/SignUp";
 import Home from "./components/Home";
 import JoinSession from "./components/JoinSession";
+import CreateSession from "./components/CreateSession";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/createSession" element={<CreateSession />} />
           <Route path="/joinSession" element={<JoinSession />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
@@ -28,3 +30,5 @@ function App() {
 }
 
 export default App;
+
+

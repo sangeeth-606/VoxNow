@@ -113,10 +113,10 @@ const Dashboard = () => {
 
           {/* Create New Session Button */}
           <div className="flex gap-5"  >
-            <button className="mb-8 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center gap-2 transition">
+            <Link to="/createSession" className="mb-8 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center gap-2 transition">
               <Plus size={20} />
               Create Session
-            </button>
+            </Link>
             <Link to='/joinSession' className="mb-8 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center gap-2 transition">
               <Plus size={20} />
               Join sessoin
