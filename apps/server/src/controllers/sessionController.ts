@@ -30,7 +30,7 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { supabase } from "../config/supabase";
 
-export const createSession: RequestHandler = async (
+export const createSession = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -59,9 +59,7 @@ export const createSession: RequestHandler = async (
 };
 
 
-
-
-export const getUserSessions = async (req: Request, res: Response) => {
+export const getUserSessions = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = (req as any).user.id;
 
@@ -72,7 +70,8 @@ export const getUserSessions = async (req: Request, res: Response) => {
 
     if (error) {
       console.error("Supabase error:", error);
-      return res.status(500).json({ error: error.message }); // Return on error
+      res.status(500).json({ error: error.message });
+      return; // Return on error
     }
 
     res.status(200).json({ sessions: data }); // No return here!!!
@@ -83,7 +82,7 @@ export const getUserSessions = async (req: Request, res: Response) => {
   }
 };
 
-export const getSessionById = async (req: Request, res: Response) => {
+export const getSessionById = async (req: Request, res: Response):Promise<void> => {
   try {
     const { id } = req.params;
 
@@ -95,7 +94,8 @@ export const getSessionById = async (req: Request, res: Response) => {
 
     if (error) {
        console.error("Supabase error:", error);
-       return res.status(500).json({ error: error.message }); // Return on error
+       res.status(500).json({ error: error.message }); 
+       return;// Return on error
     }
 
     res.status(200).json({ sessions: data }); // No return here!!!
