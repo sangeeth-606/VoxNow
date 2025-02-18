@@ -6,13 +6,7 @@ import { authenticateUser } from "../middleware/auth";
 const router = Router();
 
 router.post("/create",authenticateUser,createSession)
+router.get("/user",authenticateUser,getUserSessions)
+router.get("/:id",authenticateUser,getSessionById)
 
-// import { Router } from "express";
-// import { createSession } from "../controllers/sessionController";
-// import { authenticateUser } from "../middleware/auth";
-
-// const router = Router();
-
-// router.post("/create", createSession); // ✅ Correct usage
-
-// export default router;
+export default router
