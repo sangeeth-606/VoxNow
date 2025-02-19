@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { supabase } from "../config/supabaseClient";
+
+
 import {
   Card,
   CardContent,
@@ -21,6 +23,7 @@ export function LoginForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const Navigate = useNavigate();
+  
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
