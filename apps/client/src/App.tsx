@@ -44,6 +44,7 @@ import Home from "./components/Home";
 import JoinSession from "./components/JoinSession";
 import CreateSession from "./components/CreateSession";
 import Navbar from "./components/Navbar";
+import AddCandidateForm from "./components/AddCandidateForm";
 
 function AppContent() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -62,6 +63,7 @@ function AppContent() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/createSession" element={<CreateSession />} />
+          <Route path="/add-candidate/:session_id" element={<AddCandidateForm />} />
           <Route path="/joinSession" element={<JoinSession />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
