@@ -1,6 +1,5 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+// src/App.tsx
+import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./app/login/LoginPage";
@@ -9,13 +8,17 @@ import SignUp from "./app/login/SignUp";
 import Home from "./components/Home";
 import JoinSession from "./components/JoinSession";
 import CreateSession from "./components/CreateSession";
+import Navbar from "./components/Navbar";
 
 function App() {
-  // const [count, setCount] = useState(0)
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Navbar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <div >
+        {" "}
+        {/* Padding for fixed navbar */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
@@ -24,11 +27,9 @@ function App() {
           <Route path="/joinSession" element={<JoinSession />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
-      </BrowserRouter>
-    </>
+      </div>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-

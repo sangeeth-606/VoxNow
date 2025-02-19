@@ -13,6 +13,7 @@ import {
   Menu,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -48,34 +49,9 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Navbar */}
-      <nav className="bg-gray-800/50 border-b border-gray-700">
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setSidebarOpen(!isSidebarOpen)}
-                className="p-2 hover:bg-gray-700 rounded-lg transition"
-              >
-                <Menu size={20} />
-              </button>
-              <span className="text-xl font-bold">VoxNow</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-gray-700 rounded-lg transition">
-                <Settings size={20} />
-              </button>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-700 transition cursor-pointer">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                  <User size={16} />
-                </div>
-                <span className="text-sm">John Doe</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <div className="flex">
+      <div className="flex pt-16">
         {/* Sidebar */}
         <aside
           className={`${isSidebarOpen ? "w-64" : "w-16"} bg-gray-800/30 border-r border-gray-700 transition-all duration-300`}
