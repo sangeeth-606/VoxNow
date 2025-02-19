@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import { supabase } from "../config/supabase";
 
 // Add a Candidate
-export const addCandidate = async (req: Request, res: Response) => {
+export const addCandidate = async (req: Request, res: Response): Promise<void> => {
   try {
     const { session_id, name } = req.body;
     const user_id = req.user?.id; // Assuming req.user is set by auth middleware
 
     if (!session_id || !name) {
-      return res.status(400).json({ error: "Session ID and name are required" });
+       res.status(400).json({ error: "Session ID and name are required" });
+       return
     }
 
     // Check if session exists & user owns it
@@ -19,10 +20,12 @@ export const addCandidate = async (req: Request, res: Response) => {
       .single();
 
     if (sessionError || !session) {
-      return res.status(404).json({ error: "Session not found" });
+       res.status(404).json({ error: "Session not found" });
+       return
     }
     if (session.owner_id !== user_id) {
-      return res.status(403).json({ error: "You do not own this session" });
+       res.status(403).json({ error: "You do not own this session" });
+       return
     }
 
     // Check if session already has 10 candidates
@@ -32,13 +35,15 @@ export const addCandidate = async (req: Request, res: Response) => {
       .eq("session_id", session_id);
 
     if (countError) {
-      return res.status(500).json({ error: "Error checking candidate count" });
+       res.status(500).json({ error: "Error checking candidate count" });
+       return
     }
     if (count === null || 1){
-        return res.status(400).json({ error: "Candidates cannot be less than 2" });
+         res.status(400).json({ error: "Candidates cannot be less than 2" });
+         return
     }
     if (count >= 10) {
-      return res.status(400).json({ error: "Max 10 candidates allowed per session" });
+       res.status(400).json({ error: "Max 10 candidates allowed per session" });
     }
 
     // Insert candidate
@@ -49,7 +54,8 @@ export const addCandidate = async (req: Request, res: Response) => {
       .single();
 
     if (insertError) {
-      return res.status(500).json({ error: "Error adding candidate" });
+       res.status(500).json({ error: "Error adding candidate" });
+       return
     }
 
     res.status(201).json({ message: "Candidate added successfully", candidate });
@@ -60,7 +66,7 @@ export const addCandidate = async (req: Request, res: Response) => {
 };
 
 // Get Candidates for a Session
-export const getCandidatesBySession = async (req: Request, res: Response) => {
+export const getCandidatesBySession = async (req: Request, res: Response): Promise<void> => {
   try {
     const { session_id } = req.params;
 
@@ -71,7 +77,8 @@ export const getCandidatesBySession = async (req: Request, res: Response) => {
       .eq("session_id", session_id);
 
     if (error) {
-      return res.status(500).json({ error: "Error fetching candidates" });
+      res.status(500).json({ error: "Error fetching candidates" });
+      return 
     }
 
     res.status(200).json({ candidates });
