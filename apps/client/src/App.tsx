@@ -55,7 +55,8 @@ function AppContent() {
   return (
     <>
       {location.pathname.trim() === "/" ||
-      location.pathname.trim() === "/login" ? null : (
+      location.pathname.trim() === "/login" ||
+      location.pathname.trim() === "/dashboard" ? null : (
         <Navbar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       )}
 
