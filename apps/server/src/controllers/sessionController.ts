@@ -1,32 +1,4 @@
-//this code is ERROR ()=> coz of (Implicit Typing)
 
-// import { Request, Response } from "express"; // Make sure you import these
-// import { supabase } from "../config/supabase";
-// import { RequestHandler } from "express";
-
-// export const createSession = async (req: Request, res: Response) => {
-//   try {
-//     const { name, description } = req.body;
-//     const userId = (req as any).user.id;
-
-//     const { data, error } = await supabase
-//       .from("sessions")
-//       .insert([{ name, description, owner_id: userId }])
-//       .select()
-//       .single();
-
-//     if (error) {
-//       console.error("Supabase error:", error); // Log the error!
-//       return res.status(500).json({ error: error.message }); // Return on error
-//     }
-
-//     res.status(201).json({ message: "session created", session: data }); // No return here!!!
-    
-//   } catch (error: any) {
-//     console.error("Error creating session:", error); // Log the error!
-//     res.status(500).json({ error: error.message }); // No return here!!!
-//   }
-// };
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { supabase } from "../config/supabase";
 
