@@ -111,7 +111,7 @@ export const getUserSessions = async (req: Request, res: Response): Promise<void
       return; // Return on error
     }
 
-    res.status(200).json({ sessions: data }); // No return here!!!
+    res.status(200).json({ session: data }); // No return here!!!
 
   } catch (error: any) {
     console.error("Error getting user sessions:", error);
@@ -121,12 +121,13 @@ export const getUserSessions = async (req: Request, res: Response): Promise<void
 
 export const getSessionById = async (req: Request, res: Response):Promise<void> => {
   try {
-    const { id } = req.params;
+    const { id } = req.params;  // Change from session_id to id
+
 
     const { data, error } = await supabase
       .from("sessions")
       .select("*")
-      .eq("id", id)
+      .eq("id", id) 
       .single();
 
     if (error) {
@@ -135,7 +136,7 @@ export const getSessionById = async (req: Request, res: Response):Promise<void> 
        return;// Return on error
     }
 
-    res.status(200).json({ sessions: data }); // No return here!!!
+    res.status(200).json({ session: data }); // No return here!!!
 
   } catch (error: any) {
     console.error("Error getting session by ID:", error);

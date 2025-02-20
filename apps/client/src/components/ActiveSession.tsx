@@ -1,18 +1,22 @@
 import React from "react";
 import { ChevronRight, QrCode } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+interface VotingSession {
+  // Use a different name to avoid conflict
+  id: string;
+  name: string;
+  description: string;
+  status: string;
+  created_at: string;
+  owner_id: string;
+}
 
-interface VotingSession {  // Use a different name to avoid conflict
-    id: string;
-    name: string;
-    description: string;
-    status: string;
-    created_at: string;
-    owner_id: string;
-  }
-  
-  
-
-function ActiveSession({ activeSessions }: { activeSessions: VotingSession[] }) {
+function ActiveSession({
+  activeSessions,
+}: {
+  activeSessions: VotingSession[];
+}) {
+  const navigate = useNavigate();
   return (
     <div className="mb-8">
       {/* <h2 className="text-xl font-semibold mb-4">Active Sessions</h2> */}
@@ -36,7 +40,10 @@ function ActiveSession({ activeSessions }: { activeSessions: VotingSession[] }) 
                 <button className="p-2 hover:bg-gray-700 rounded-lg transition">
                   <QrCode size={20} />
                 </button>
-                <button className="flex items-center gap-2 px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-lg hover:bg-blue-600/30 transition">
+                <button
+                  onClick={() => navigate(`/session/${session.id}`)}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-blue-600/20 text-blue-400 rounded-lg hover:bg-blue-600/30 transition"
+                >
                   View Details
                   <ChevronRight size={16} />
                 </button>

@@ -1,18 +1,22 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+interface VotingSession {
+  // Use a different name to avoid conflict
+  id: string;
+  name: string;
+  description: string;
+  status: string;
+  created_at: string;
+  owner_id: string;
+}
 
-interface VotingSession {  // Use a different name to avoid conflict
-    id: string;
-    name: string;
-    description: string;
-    status: string;
-    created_at: string;
-    owner_id: string;
-  }
-  
-  
-
-function CompletedSession({ completedSessions }: { completedSessions: VotingSession[] }) {
+function CompletedSession({
+  completedSessions,
+}: {
+  completedSessions: VotingSession[];
+}) {
+  const navigate = useNavigate();
   return (
     <div>
       {/* <h2 className="text-xl font-semibold mb-4">Completed Sessions</h2> */}
@@ -32,7 +36,10 @@ function CompletedSession({ completedSessions }: { completedSessions: VotingSess
                   Created on {new Date(session.created_at).toLocaleDateString()}
                 </div>
               </div>
-              <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition">
+              <button
+                onClick={() => navigate(`/session/${session.id}`)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition"
+              >
                 View Results
                 <ChevronRight size={16} />
               </button>
