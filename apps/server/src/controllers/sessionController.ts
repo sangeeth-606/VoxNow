@@ -115,3 +115,51 @@ export const getSessionById = async (req: Request, res: Response):Promise<void> 
     res.status(500).json({ error: error.message }); // No return here!!!
   }
 };
+
+export const updateSessionStatus = async (req:Request, res:Response):Promise<void>=>{
+  try{
+    const {id}= req.params;
+    console.log('ID:', id, 'Type:', typeof id);
+    const userid = (req as any).user?.id;
+
+    if(!userid){
+      res.status(401).json({ error: "Unauthorized: User ID missing" });
+      return;
+    }
+
+    const {data:session, error:sessionError} = await supabase
+    .from("sessions")
+    .select("*")
+    .eq("id",id)
+    .eq("owner_id",userid)
+    .single();
+
+    if (sessionError || !session) {
+      res.status(404).json({ error: "Session not found" });
+      return;
+    }
+
+    //logic to update session
+    const {data:updatedSession , error:updateError} = await supabase
+    .from("sessions")
+    .update({status:"completed"})
+    .eq("id", id) 
+    .select()
+    .single()
+    
+
+
+    if (updateError) {
+      console.error("Supabase error:", updateError);
+      res.status(500).json({ error: "Failed to update session status" });
+      return;
+    }
+
+    res.status(200).json({ message: "Session marked as completed", session: updatedSession });
+
+  }catch(error:any){
+    console.error("Error updating session status:", error);
+    res.status(500).json({ error: error.message });
+
+  }
+}
