@@ -1,5 +1,7 @@
 
-import React, { useEffect, useState } from "react";
+
+// frontend/components/CandidateList.tsx
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { supabase } from "@/config/supabaseClient";
 
@@ -17,6 +19,113 @@ const CandidateList = ({ sessionId }: CandidateListProps) => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const handleVote = async (candidateId: string) => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const token = (await supabase.auth.getSession()).data.session?.access_token;
+      if (!token) {
+        setError("Auth token missing.");
+        setLoading(false);
+        return;
+      }
+
+      const voterId = (await supabase.auth.getUser()).data.user?.id;
+      if (!voterId) {
+        setError("User not authenticated.");
+        setLoading(false);
+        return;
+      }
+
+      const payload = { sessionId, candidateId, voterId };
+      console.log("Request payload:", payload);
+
+      const response = await axios.post(
+        `http://localhost:5000/api/candidates/vote`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Vote submitted successfully:", response.data);
+
+      // Update the candidate list with the new vote count
+      const updatedCandidates = candidates.map((candidate) =>
+        candidate.id === candidateId
+          ? { ...candidate, votes: candidate.votes + 1 }
+          : candidate
+      );
+      setCandidates(updatedCandidates);
+    } catch (error: any) {
+      console.error("Error in handleVote:", error.response?.data || error.message);
+
+      // Handle 400 error (user already voted)
+      if (error.response?.status === 400) {
+        alert(error.response.data.error || "You have already voted in this session.");
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+
+      setError(error.response?.data?.error || "Failed to vote for candidate.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  // const handleVote = async (candidateId: string) => {
+  //   setLoading(true);
+  //   setError("");
+
+  //   try {
+  //     const token = (await supabase.auth.getSession()).data.session
+  //       ?.access_token;
+  //     if (!token) {
+  //       setError("Auth token missing.");
+  //       return;
+  //     }
+
+  //     const voterId = (await supabase.auth.getUser()).data.user?.id;
+  //     if (!voterId) {
+  //       setError("User not authenticated.");
+  //       return;
+  //     }
+
+  //     const payload = { sessionId, candidateId, voterId };
+  //     console.log("Request payload:", payload);
+
+  //     const response = await axios.post(
+  //       `http://localhost:5000/api/candidates/vote`,
+  //       payload,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     console.log("Response:", response);
+
+  //     // Update the candidate list with the new vote count
+  //     const updatedCandidates = candidates.map((candidate) =>
+  //       candidate.id === candidateId
+  //         ? { ...candidate, votes: candidate.votes + 1 }
+  //         : candidate
+  //     );
+  //     setCandidates(updatedCandidates);
+  //   } catch (error) {
+  //     console.error("Error in handleVote:", error);
+  //     setError("Failed to vote for candidate.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -74,7 +183,16 @@ const CandidateList = ({ sessionId }: CandidateListProps) => {
               className="p-3 bg-gray-100 rounded-lg text-gray-800 flex justify-between"
             >
               <span>{candidate.name}</span>
-              <span>{candidate.votes} votes</span>
+              <div>
+                <span>{candidate.votes} votes</span>
+                <button
+                  onClick={() => handleVote(candidate.id)}
+                  disabled={loading}
+                  className="ml-4 bg-blue-500 text-white px-2 py-1 rounded"
+                >
+                  Vote
+                </button>
+              </div>
             </li>
           ))}
         </ul>
