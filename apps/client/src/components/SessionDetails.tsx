@@ -79,8 +79,6 @@ const SessionDetails = () => {
       }
     };
 
-
-
     fetchSessionDetails();
   }, [session_id]);
 
@@ -264,17 +262,17 @@ const SessionDetails = () => {
                   Actions
                 </h2>
 
-                {session.status !== 'completed' && (
-  <button
-    onClick={() => setShowVoteModal(true)}
-    className="w-full py-4 px-6 rounded-lg font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-all duration-300"
-  >
-    <div className="flex items-center justify-center">
-      <CheckCircle2 className="w-5 h-5 mr-2" />
-      Cast Your Vote
-    </div>
-  </button>
-)}
+                {session.status !== "completed" && (
+                  <button
+                    onClick={() => setShowVoteModal(true)}
+                    className="w-full py-4 px-6 rounded-lg font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-all duration-300"
+                  >
+                    <div className="flex items-center justify-center">
+                      <CheckCircle2 className="w-5 h-5 mr-2" />
+                      Cast Your Vote
+                    </div>
+                  </button>
+                )}
                 {isOwner && (
                   <>
                     {session.status === "active" ? (
