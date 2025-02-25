@@ -40,7 +40,7 @@ const CandidateList = ({ sessionId }: CandidateListProps) => {
       }
 
       const payload = { sessionId, candidateId, voterId };
-      console.log("Request payload:", payload);
+      // console.log("Request payload:", payload);
 
       const response = await axios.post(
         `http://localhost:5000/api/candidates/vote`,
@@ -78,53 +78,6 @@ const CandidateList = ({ sessionId }: CandidateListProps) => {
   };
 
 
-  // const handleVote = async (candidateId: string) => {
-  //   setLoading(true);
-  //   setError("");
-
-  //   try {
-  //     const token = (await supabase.auth.getSession()).data.session
-  //       ?.access_token;
-  //     if (!token) {
-  //       setError("Auth token missing.");
-  //       return;
-  //     }
-
-  //     const voterId = (await supabase.auth.getUser()).data.user?.id;
-  //     if (!voterId) {
-  //       setError("User not authenticated.");
-  //       return;
-  //     }
-
-  //     const payload = { sessionId, candidateId, voterId };
-  //     console.log("Request payload:", payload);
-
-  //     const response = await axios.post(
-  //       `http://localhost:5000/api/candidates/vote`,
-  //       payload,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     console.log("Response:", response);
-
-  //     // Update the candidate list with the new vote count
-  //     const updatedCandidates = candidates.map((candidate) =>
-  //       candidate.id === candidateId
-  //         ? { ...candidate, votes: candidate.votes + 1 }
-  //         : candidate
-  //     );
-  //     setCandidates(updatedCandidates);
-  //   } catch (error) {
-  //     console.error("Error in handleVote:", error);
-  //     setError("Failed to vote for candidate.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
 
   useEffect(() => {
