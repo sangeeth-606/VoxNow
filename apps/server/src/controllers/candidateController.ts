@@ -80,81 +80,7 @@ export const getCandidatesBySession = async (req: Request, res: Response): Promi
   }
 };
 
-// src/controllers/candidateController.ts
 
-// export const voteForCandidate = async (req: Request, res: Response) => {
-//   const { sessionId, candidateId, voterId } = req.body;
-
-//   try {
-//     // Step 1: Validate the session
-//     const { data: session, error: sessionError } = await supabase
-//       .from("sessions")
-//       .select("*")
-//       .eq("id", sessionId)
-//       .single();
-
-//     if (sessionError || !session || session.status !== "active") {
-//       console.error("Invalid or inactive session:", sessionError);
-//       res.status(400).json({ error: "Invalid or inactive session" });
-//       return; // ✅ Add return to stop execution
-//     }
-
-//     // Step 2: Check if the user has already voted
-//     const { data: existingVote, error: voteError } = await supabase
-//       .from("votes")
-//       .select("*")
-//       .eq("session_id", sessionId)
-//       .eq("voter_id", voterId)
-//       .single();
-
-//     if (voteError || existingVote) {
-//       res.status(400).json({ error: "You have already voted in this session" });
-//       return; // ✅ Prevent further execution
-//     }
-
-//     // Step 3: Record the vote
-//     const { error: insertError } = await supabase
-//       .from("votes")
-//       .insert([{ session_id: sessionId, candidate_id: candidateId, voter_id: voterId }]);
-
-//     if (insertError) {
-//       res.status(500).json({ error: "Failed to record vote" });
-//       return; // ✅ Stop execution
-//     }
-
-//     // Step 4: Increment the candidate's vote count
-//     const { data: candidate, error: candidateError } = await supabase
-//       .from("candidates")
-//       .select("*")
-//       .eq("id", candidateId)
-//       .single();
-
-//     if (candidateError || !candidate) {
-//       res.status(400).json({ error: "Candidate not found" });
-//       return; // ✅ Prevent further execution
-//     }
-
-//     const updatedVotes = candidate.votes + 1;
-//     const { data: updatedCandidate, error: updateError } = await supabase
-//       .from("candidates")
-//       .update({ votes: updatedVotes })
-//       .eq("id", candidateId)
-//       .select()
-//       .single();
-
-//     if (updateError) {
-//       res.status(500).json({ error: "Failed to update vote count" });
-//       return;
-//     }
-
-//     res.status(200).json({ message: "Vote submitted successfully", candidate: updatedCandidate });
-//   } catch (err) {
-//     console.error("Unexpected error:", err);
-//     if (!res.headersSent) {
-//       res.status(500).json({ error: "Failed to submit vote" });
-//     }
-//   }
-// };
 export const voteForCandidate = async (req: Request, res: Response): Promise<void> => {
   console.log("Received vote request:", req.body);
   
@@ -174,7 +100,7 @@ export const voteForCandidate = async (req: Request, res: Response): Promise<voi
     }
 
     // Step 2: Check if the user has already voted in this session
-    // Step 2: Check if the user has already voted in this session
+
 const { data: existingVote, error: voteError } = await supabase
 .from('votes')
 .select('*')
@@ -236,73 +162,5 @@ return;
     return;
   }
 };
-
-
-
-// export const voteForCandidate = async (req: Request, res: Response):Promise<void> => {
-//   const { sessionId, candidateId, voterId } = req.body;
-
-//   try {
-//     // Step 1: Validate the session
-//     const { data: session, error: sessionError } = await supabase
-//       .from('sessions')
-//       .select('*')
-//       .eq('id', sessionId)
-//       .single();
-
-//     if (sessionError || !session || session.status !== 'active') {
-//        res.status(400).json({ error: 'Invalid or inactive session' });
-//     }
-
-//     // Step 2: Check if the user has already voted in this session
-//     const { data: existingVote, error: voteError } = await supabase
-//       .from('votes')
-//       .select('*')
-//       .eq('session_id', sessionId)
-//       .eq('voter_id', voterId)
-//       .single();
-
-//     if (voteError || existingVote) {
-//        res.status(400).json({ error: 'You have already voted in this session' });
-//     }
-
-//     // Step 3: Record the vote in the `votes` table
-//     const { data: vote, error: insertError } = await supabase
-//       .from('votes')
-//       .insert([{ session_id: sessionId, candidate_id: candidateId, voter_id: voterId }])
-//       .single();
-
-//     if (insertError) {
-//        res.status(500).json({ error: 'Failed to record vote' });
-//     }
-
-//     // Step 4: Increment the vote count for the candidate
-//     const { data: candidate, error: candidateError } = await supabase
-//       .from('candidates')
-//       .select('*')
-//       .eq('id', candidateId)
-//       .single();
-
-//     if (candidateError || !candidate) {
-//        res.status(400).json({ error: 'Candidate not found' });
-//     }
-
-//     const updatedVotes = candidate.votes + 1;
-//     const { data: updatedCandidate, error: updateError } = await supabase
-//       .from('candidates')
-//       .update({ votes: updatedVotes })
-//       .eq('id', candidateId)
-//       .single();
-
-//     if (updateError) {
-//        res.status(500).json({ error: 'Failed to update vote count' });
-//     }
-
-//     res.status(200).json({ message: 'Vote submitted successfully', candidate: updatedCandidate });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Failed to submit vote' });
-//   }
-// };
 
 
