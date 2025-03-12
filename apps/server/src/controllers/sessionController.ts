@@ -2,33 +2,6 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { supabase } from "../config/supabase";
 
-// export const createSession = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ): Promise<void> => {  // ✅ Ensure function explicitly returns Promise<void>
-//   try {
-//     const { name, description } = req.body;
-//     const userId = (req as any).user.id;
-
-//     const { data, error } = await supabase
-//       .from("sessions")
-//       .insert([{ name, description, owner_id: userId }])
-//       .select()
-//       .single();
-
-//     if (error) {
-//       console.error("Supabase error:", error);
-//       res.status(500).json({ error: error.message }); // ✅ No return statement here
-//       return; // ✅ Ensure the function returns void
-//     }
-
-//     res.status(201).json({ message: "session created", session: data }); // ✅ No return statement
-//   } catch (error: any) {
-//     console.error("Error creating session:", error);
-//     res.status(500).json({ error: error.message }); // ✅ No return statement
-//   }
-// };
 export const createSession = async (
   req: Request,
   res: Response,
